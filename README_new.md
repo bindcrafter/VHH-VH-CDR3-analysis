@@ -9,7 +9,6 @@ VH and VHH sequences from FASTA files using ANARCI.
 - Analyze either VH or VHH sequences
 - Supports IMGT, Kabat, Chothia, and Martin numbering schemes
 - IMGT is used as the default numbering scheme
-- Automatically trims sequences to start from the first `QVQ`
 - Extracts:
   - FR1
   - CDR1
