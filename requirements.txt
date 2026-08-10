@@ -1,0 +1,7 @@
+streamlit>=1.36
+ANARCI==2026.2.13.2
+biopython>=1.83
+numpy>=1.26
+pandas>=2.0
+matplotlib>=3.8
+scipy>=1.11
