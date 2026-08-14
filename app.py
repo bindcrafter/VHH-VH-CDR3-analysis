@@ -52,9 +52,8 @@ def safe_job_id(name):
 
 
 def clean_sequence(seq):
-    seq = "".join(str(seq).split()).upper().replace("*", "")
-    start = seq.find("QVQ")
-    return seq[start:] if start >= 0 else ""
+    """Clean a protein sequence without imposing an N-terminal motif filter."""
+    return "".join(str(seq).split()).upper().replace("*", "")
 
 
 def clean_title(description):
@@ -129,12 +128,12 @@ def analyze(uploaded_file, job_name, receptor_type, scheme, cluster_threshold):
         title = clean_title(record.description)
         seq = clean_sequence(record.seq)
         if not seq:
-            failures.append({"title": title, "reason": "QVQ motif not found"})
+            failures.append({"title": title, "reason": "Empty sequence after cleaning"})
             continue
         seq_tuples.append((title, seq))
 
     if not seq_tuples:
-        raise ValueError("No sequences containing the QVQ motif were found.")
+        raise ValueError("No non-empty FASTA sequences were found.")
 
     numbered, alignment_details, hit_tables = anarci(
         seq_tuples, scheme=scheme, output=False, assign_germline=False
@@ -268,7 +267,7 @@ st.subheader("1. Upload FASTA")
 uploaded_file = st.file_uploader(
     "Choose a FASTA file",
     type=["fasta", "fa", "faa", "fas", "txt"],
-    help="Sequences are trimmed to start at the first QVQ motif."
+    help="All non-empty FASTA sequences are submitted to ANARCI; no QVQ/EVQ/QLQ motif prefilter is applied."
 )
 
 if uploaded_file is None:
